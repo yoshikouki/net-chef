@@ -1,6 +1,7 @@
-cookbook_path ["cookbooks", "vendor/cookbooks"]
 local_mode true
-chef_repo_path File.expand_path('../', __FILE__)
+current_dir = File.absolute_path(File.dirname(File.dirname(__FILE__)))
+cookbook_path %W[#{current_dir}/cookbooks #{current_dir}/vendor/cookbooks]
+node_path "#{current_dir}/nodes"
 
 knife[:ssh_attribute] = "knife_zero.host"
 knife[:use_sudo] = true

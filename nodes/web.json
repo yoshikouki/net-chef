@@ -45,5 +45,8 @@
         "ohai_root": "/opt/chef/embedded/lib/ruby/gems/2.7.0/gems/ohai-16.6.5/lib/ohai"
       }
     }
-  }
+  },
+  "run_list": [
+    "nginx"
+  ]
 }

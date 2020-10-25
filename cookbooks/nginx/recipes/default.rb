@@ -28,9 +28,14 @@ template 'nginx.conf' do
 end
 
 # バーチャルホストの設定を配置するディレクトリを作成
-directory '/etc/nginx/vhost.d' do
-  owner 'root'
-  group 'root'
-  mode 0755
-  recursive true
+%w[
+  /etc/nginx
+  /etc/nginx/vhost.d
+].each do |path|
+  directory path do
+    owner 'root'
+    group 'root'
+    mode 0755
+    recursive true
+  end
 end

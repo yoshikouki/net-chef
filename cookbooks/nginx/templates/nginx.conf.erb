@@ -36,9 +36,47 @@ http {
     include /etc/nginx/conf.d/*.conf;
 
     server {
+        server_name yoshikouki.net; # managed by Certbot
+        root         /usr/share/nginx/html;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+        }
+
+        error_page 404 /404.html;
+        location = /404.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+        }
+
+        listen [::]:443 ssl ipv6only=on; # managed by Certbot
+        listen 443 ssl; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/yoshikouki.net/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/yoshikouki.net/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    }
+
+    server {
+        if ($host = yoshikouki.net) {
+            return 301 https://$host$request_uri;
+        } # managed by Certbot
+        server_name yoshikouki.net;
+
+        listen       80 ;
+        listen       [::]:80 ;
+        return 404; # managed by Certbot
+    }
+
+    # Setting for catch-all
+    server {
+        server_name  _;
         listen       80 default_server;
         listen       [::]:80 default_server;
-        server_name  _;
         root         /usr/share/nginx/html;
 
         # Load configuration files for the default server block.
@@ -57,39 +95,18 @@ http {
     }
 
 # Settings for a TLS enabled server.
-#
-#    server {
-#        listen       443 ssl http2 default_server;
-#        listen       [::]:443 ssl http2 default_server;
-#        server_name  _;
-#        root         /usr/share/nginx/html;
-#
-#        ssl_certificate "/etc/pki/nginx/server.crt";
-#        ssl_certificate_key "/etc/pki/nginx/private/server.key";
-#        ssl_session_cache shared:SSL:1m;
-#        ssl_session_timeout  10m;
-#        ssl_ciphers HIGH:!aNULL:!MD5;
-#        ssl_prefer_server_ciphers on;
-#
-#        # Load configuration files for the default server block.
-#        include /etc/nginx/default.d/*.conf;
-#
-#        location / {
-#        }
-#
-#        error_page 404 /404.html;
-#        location = /404.html {
-#        }
-#
-#        error_page 500 502 503 504 /50x.html;
-#        location = /50x.html {
-#        }
-#    }
-
-
     server {
-    server_name yoshikouki.net; # managed by Certbot
+        listen       443 ssl http2 default_server;
+        listen       [::]:443 ssl http2 default_server;
+        server_name  _;
         root         /usr/share/nginx/html;
+
+        ssl_certificate "/etc/pki/nginx/server.crt";
+        ssl_certificate_key "/etc/pki/nginx/private/server.key";
+        ssl_session_cache shared:SSL:1m;
+        ssl_session_timeout  10m;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers on;
 
         # Load configuration files for the default server block.
         include /etc/nginx/default.d/*.conf;
@@ -104,27 +121,6 @@ http {
         error_page 500 502 503 504 /50x.html;
         location = /50x.html {
         }
-
-
-    listen [::]:443 ssl ipv6only=on; # managed by Certbot
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/yoshikouki.net/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/yoshikouki.net/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    }
 
 }
-
-    server {
-    if ($host = yoshikouki.net) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-        listen       80 ;
-        listen       [::]:80 ;
-    server_name yoshikouki.net;
-    return 404; # managed by Certbot
-
-
-}}

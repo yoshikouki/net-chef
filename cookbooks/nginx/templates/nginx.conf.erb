@@ -45,12 +45,20 @@ http {
 
     server {
         server_name yoshikouki.net; # managed by Certbot
+        listen [::]:443 ssl ipv6only=on; # managed by Certbot
+        listen 443 ssl; # managed by Certbot
         root         /usr/share/nginx/html;
 
         # Load configuration files for the default server block.
         include /etc/nginx/default.d/*.conf;
 
+        ssl_certificate /etc/letsencrypt/live/yoshikouki.net/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/yoshikouki.net/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
         location / {
+            index index.html index.htm;
         }
 
         error_page 404 /404.html;
@@ -60,13 +68,6 @@ http {
         error_page 500 502 503 504 /50x.html;
         location = /50x.html {
         }
-
-        listen [::]:443 ssl ipv6only=on; # managed by Certbot
-        listen 443 ssl; # managed by Certbot
-        ssl_certificate /etc/letsencrypt/live/yoshikouki.net/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/yoshikouki.net/privkey.pem; # managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
     }
 
 # Setting for catch-all

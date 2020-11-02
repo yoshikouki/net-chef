@@ -86,6 +86,82 @@
         "managed": true,
         "make_cache": true
       }
+    },
+    "seven_zip": {
+      "url": "https://www.7-zip.org/a/7z1805-x64.msi",
+      "checksum": "898c1ca0015183fe2ba7d55cacf0a1dea35e873bf3f8090f362a6288c6ef08d7",
+      "package_name": "7-Zip 18.05 (x64 edition)",
+      "default_extract_timeout": 600
+    },
+    "ark": {
+      "apache_mirror": "http://apache.mirrors.tds.net",
+      "prefix_root": "/usr/local",
+      "prefix_bin": "/usr/local/bin",
+      "prefix_home": "/usr/local",
+      "tar": null,
+      "sevenzip_binary": null,
+      "package_dependencies": [
+        "libtool",
+        "autoconf",
+        "make",
+        "unzip",
+        "rsync",
+        "gcc",
+        "xz-lzma-compat",
+        "bzip2",
+        "tar"
+      ]
+    },
+    "chocolatey": {
+      "upgrade": false,
+      "sensitive": false,
+      "install_vars": {
+        "chocolateyProxyLocation": null,
+        "chocolateyProxyUser": null,
+        "chocolateyProxyPassword": null,
+        "chocolateyVersion": null,
+        "chocolateyDownloadUrl": "https://chocolatey.org/api/v2/package/chocolatey",
+        "chocolateyUseWindowsCompression": null
+      }
+    },
+    "nodejs": {
+      "install_method": "package",
+      "version": "10.16.3",
+      "prefix_url": {
+        "node": "https://nodejs.org/dist/"
+      },
+      "tmpdir": "/tmp",
+      "source": {
+        "url": null,
+        "checksum": "db5a5e03a815b84a1266a4b48bb6a6d887175705f84fd2472f0d28e5e305a1f8"
+      },
+      "binary": {
+        "url": null,
+        "checksum": {
+          "linux_x64": "2f0397bb81c1d0c9901b9aff82a933257bf60f3992227b86107111a75b9030d9",
+          "linux_arm64": "3bab16e7107092e43426e082ee9fd88ef0a43a35816f662f14563bcc5152600d"
+        },
+        "append_env_path": true
+      },
+      "make_threads": 1,
+      "manage_node": true,
+      "npm": {
+        "install_method": "embedded",
+        "version": "latest"
+      },
+      "install_repo": true,
+      "repo": "https://rpm.nodesource.com/pub_10.x/el/6/$basearch",
+      "key": "https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL",
+      "packages": [
+        "nodejs",
+        "nodejs-devel"
+      ],
+      "package_action": {
+        "default": "install"
+      },
+      "package_options": {
+        "default": ""
+      }
     }
   },
   "automatic": {
@@ -100,8 +176,15 @@
     "recipes": [
       "yum-epel",
       "yum-epel::default",
-      "nginx",
-      "nginx::default"
+      "web",
+      "web::default",
+      "nginx::default",
+      "nodejs::default",
+      "nodejs::install",
+      "nodejs::nodejs_from_package",
+      "nodejs::repo",
+      "nodejs::npm",
+      "nodejs::npm_packages"
     ],
     "platform": "amazon",
     "platform_version": "2",

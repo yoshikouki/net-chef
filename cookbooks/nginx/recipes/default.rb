@@ -9,12 +9,18 @@ package 'nginx' do
   action :install
 end
 
-# nginx を起動する
-service 'nginx' do
-  supports status: true,
-           restart: true,
-           reload: true
-  action %i[enable start]
+# ディレクトリを作成
+%w[
+  /etc/nginx
+  /etc/nginx/vhost.d
+  /var/www
+].each do |path|
+  directory path do
+    owner 'root'
+    group 'root'
+    mode 0755
+    recursive true
+  end
 end
 
 # テンプレート設定ファイルを使用する
@@ -27,15 +33,10 @@ template 'nginx.conf' do
   notifies :reload, 'service[nginx]'
 end
 
-# バーチャルホストの設定を配置するディレクトリを作成
-%w[
-  /etc/nginx
-  /etc/nginx/vhost.d
-].each do |path|
-  directory path do
-    owner 'root'
-    group 'root'
-    mode 0755
-    recursive true
-  end
+# nginx を起動する
+service 'nginx' do
+  supports status: true,
+           restart: true,
+           reload: true
+  action %i[enable start]
 end

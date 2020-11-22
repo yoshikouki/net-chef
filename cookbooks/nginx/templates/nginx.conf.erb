@@ -58,7 +58,8 @@ http {
         ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
         location / {
-            index index.html index.htm;
+            proxy_pass http://localhost:3000;
+            proxy_set_header Host $http_host;
         }
 
         error_page 404 /404.html;

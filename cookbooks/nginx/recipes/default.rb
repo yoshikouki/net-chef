@@ -15,6 +15,8 @@ end
   /etc/nginx/vhost.d
   /var/www
   /var/www/yoshikouki.net
+  /var/yoshikouki.net
+  /Users/deploy
 ].each do |path|
   directory path do
     owner 'root'

@@ -14,6 +14,7 @@ end
   /etc/nginx
   /etc/nginx/vhost.d
   /var/www
+  /var/www/yoshikouki.net
 ].each do |path|
   directory path do
     owner 'root'
